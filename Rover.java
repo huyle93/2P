@@ -73,9 +73,23 @@ public class Rover extends JComponent implements Animated
       // Add the J-objects using the add method
       // set the location
       ///////////////////////////////////////////////////////////
-      
-      
-      
+       
+       
+       wheel1 = new JEllipse( Color.BLUE );
+       wheel1.setSize( wheelDiam, wheelDiam );
+       wheel1.setLocation( wheel1X, wheelY );
+       this.add( wheel1 );
+       
+       wheel2 = new JEllipse( Color.BLUE );
+       wheel2.setSize( wheelDiam, wheelDiam );
+       wheel2.setLocation( wheel2X, wheelY );
+       this.add( wheel2 );
+       
+       body = new JRectangle( bodyX, bodyY );
+       body.setColor( Color.GRAY );
+       body.setSize( bodyW, bodyH );
+       this.add( body );
+       
       setLocation( x, y );
    }
    //------------------------- constructor -----------------------------------

@@ -18,135 +18,155 @@ import javax.swing.*;
 import java.util.*;
 
 public class ResearchSite extends JRectangle
-                     implements MouseListener, MouseMotionListener, Draggable
+    implements MouseListener, MouseMotionListener, Draggable
 {
-   //--------------------- class variables --------------------------------
-   public static int    size = 10;
-   
-   //--------------------- instance variables -----------------------------
-   private boolean     _visited = false;
-   
-   //--------------------- constants --------------------------------------
-   private Color  fillColor = Color.RED;
-   private Color  lineColor = Color.BLACK;
-   
-   //---------------------- constructors ----------------------------------
-   /**
-    * Generate a site at the specified location.
-    */
-   public ResearchSite( Point p )
-   {
-      super( p.x, p.y );
-      setFillColor( fillColor );
-      setFrameColor( lineColor );
-      setSize( size, size );
-      
-      addMouseListener( this );
-      addMouseMotionListener( this );
-   }
-   //++++++++++++++++++++++ Draggable interface methods +++++++++++++++++++
-   private boolean   _draggable = false; // true if this object can be dragged
-   public void setDraggable( boolean onOff )
-   {
-      _draggable = onOff;
-   }
-   public boolean isDraggable()
-   {
-      return _draggable;
-   }
-   public boolean contains( java.awt.geom.Point2D point )
-   {
-      return getBounds().contains( point );
-   }
-   
-   //++++++++++++++++++++ mouse methods / instance variables ++++++++++++++++
-   private Point _saveMouse;   // instance variable for last mouse position
-                               //   used for dragging      
-   //+++++++++++++++++++++++++ mouseListener methods ++++++++++++++++++++++++
-   //-------------- mousePressed -----------------------------------
-   public void mousePressed( MouseEvent me )
-   {
-      ////////////////////////////////////////////////////////////////////
-      // me.getPoint(), which we've used before is the location of the 
-      // mouse "inside" the JComponent; this won't work.
-      //
-      // We need the position of the mouse in the container that holds the
-      // JComponent: getParent().getMousePosition()
-      //
-      // Assign it to the instance variable, _saveMouse
-      ////////////////////////////////////////////////////////////////////
-
-
-      
-   }
-   //-------------- mouseClicked -----------------------------------
-   public void mouseClicked( MouseEvent me )
-   {
-      ////////////////////////////////////////////////////////////////////
-      // me.getPoint(), which we've used before is the location of the 
-      // mouse "inside" the JComponent; this won't work.
-      //
-      // We need the position of the mouse in the container that holds the
-      // JComponent: getParent().getMousePosition()
-      //
-      // Assign it to the instance variable, _saveMouse
-      ////////////////////////////////////////////////////////////////////
-
-
-      
-   }
-   //--------------- unimplemented mouse listener methods ---------------------
-   public void mouseReleased( MouseEvent me ){}
-   public void mouseEntered( MouseEvent me ){}
-   public void mouseExited( MouseEvent me ){}
-   
-   //+++++++++++++++++++ mouseMotionListener methods ++++++++++++++++++++++++
-   //---------------- mouseDragged ----------------------------------------
-   public void mouseDragged( MouseEvent me )
-   {
-      //////////////////////////////////////////////////////////////////////
-      //  IF this object is draggable
-      //     Get new position of mouse:
-      //         getParent().getMousePosition()
-      //     For each of x and y coordinates, compute
-      //       dX = newX - oldX (stored in _saveMouse.x)
-      //       dY = newY - oldY (stored in _saveMouse.y)
-      //     invoke moveBy( dX, dY ) 
-      //     Save new position in _saveMouse
-      //     getParent().repaint()
-      //////////////////////////////////////////////////////////////////////
-      
-
-
-      
-   }
-   //----------------- mouseMoved not implemented --------------------------
-   public void mouseMoved( MouseEvent me ){}
-   //+++++++++++++++++ end MouseMotionListeners ++++++++++++++++++++++++++++
-   
-   //--------------------- main -----------------------------------
-   /**
-    * unit test
-    */
-   public static void main( String[] args )
-   {     
-      JFrame testFrame = new JFrame();
-      testFrame.setSize( 700, 500 );  // define window size
-      
-      testFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-      JPanel testPanel = new JPanel( (LayoutManager) null );
-      testFrame.add( testPanel );
-      
-      ResearchSite s1 = new ResearchSite( new Point( 200, 200 ));
-      testPanel.add( s1 );
-      
-      ResearchSite s2 = new ResearchSite( new Point( 200, 100 ));
-      testPanel.add( s2 );
-      //s2.setVisited( true );
- 
-      testFrame.setVisible( true );  // Initially, JFrame is not visible, make it so.
-
-   }
+    //--------------------- class variables --------------------------------
+    public static int    size = 10;
+    
+    //--------------------- instance variables -----------------------------
+    private boolean     _visited = false;
+    
+    //--------------------- constants --------------------------------------
+    private Color  fillColor = Color.RED;
+    private Color  lineColor = Color.BLACK;
+    private Color reColor = Color.BLUE;
+    
+    //---------------------- constructors ----------------------------------
+    /**
+     * Generate a site at the specified location.
+     */
+    public ResearchSite( Point p )
+    {
+        super( p.x, p.y );
+        setFillColor( fillColor );
+        setFrameColor( lineColor );
+        setSize( size, size );
+        
+        addMouseListener( this );
+        addMouseMotionListener( this );
+    }
+    //++++++++++++++++++++++ Draggable interface methods +++++++++++++++++++
+    private boolean   _draggable = false; // true if this object can be dragged
+    public void setDraggable( boolean onOff )
+    {
+        _draggable = onOff;
+    }
+    public boolean isDraggable()
+    {
+        return _draggable;
+    }
+    public boolean contains( java.awt.geom.Point2D point )
+    {
+        return getBounds().contains( point );
+    }
+    
+    //++++++++++++++++++++ mouse methods / instance variables ++++++++++++++++
+    private Point _saveMouse;   // instance variable for last mouse position
+    //   used for dragging      
+    //+++++++++++++++++++++++++ mouseListener methods ++++++++++++++++++++++++
+    //-------------- mousePressed -----------------------------------
+    public void mousePressed( MouseEvent me )
+    {
+        ////////////////////////////////////////////////////////////////////
+        // me.getPoint(), which we've used before is the location of the 
+        // mouse "inside" the JComponent; this won't work.
+        //
+        // We need the position of the mouse in the container that holds the
+        // JComponent: getParent().getMousePosition()
+        //
+        // Assign it to the instance variable, _saveMouse
+        ////////////////////////////////////////////////////////////////////
+        
+        _saveMouse = getParent().getMousePosition();
+        super.setFillColor( reColor );
+        super.setFrameColor( lineColor );
+        
+    }
+    //-------------- mouseClicked -----------------------------------
+    public void mouseClicked( MouseEvent me )
+    {
+        ////////////////////////////////////////////////////////////////////
+        // me.getPoint(), which we've used before is the location of the 
+        // mouse "inside" the JComponent; this won't work.
+        //
+        // We need the position of the mouse in the container that holds the
+        // JComponent: getParent().getMousePosition()
+        //
+        // Assign it to the instance variable, _saveMouse
+        ////////////////////////////////////////////////////////////////////
+        _saveMouse = getParent().getMousePosition();
+        
+        
+    }
+    //--------------- unimplemented mouse listener methods ---------------------
+    public void mouseReleased( MouseEvent me ){}
+    public void mouseEntered( MouseEvent me ){}
+    public void mouseExited( MouseEvent me ){}
+    
+    //+++++++++++++++++++ mouseMotionListener methods ++++++++++++++++++++++++
+    //---------------- mouseDragged ----------------------------------------
+    public void mouseDragged( MouseEvent me )
+    {
+        //////////////////////////////////////////////////////////////////////
+        //  IF this object is draggable
+        //     Get new position of mouse:
+        //         getParent().getMousePosition()
+        //     For each of x and y coordinates, compute
+        //       dX = newX - oldX (stored in _saveMouse.x)
+        //       dY = newY - oldY (stored in _saveMouse.y)
+        //     invoke moveBy( dX, dY ) 
+        //     Save new position in _saveMouse
+        //     getParent().repaint()
+        //////////////////////////////////////////////////////////////////////
+        if ( _draggable == true )
+        {
+            Point a = new Point(); 
+            a = getParent().getMousePosition();
+            
+            if ( a != null )
+            {
+                int x, y;
+                x = a.x - _saveMouse.x;
+                y = a.y - _saveMouse.y;
+                
+                moveBy( x, y );
+                
+                _saveMouse.x = a.x;
+                _saveMouse.y = a.y;
+                getParent().repaint();
+            }
+        }
+        
+        
+    }
+    //----------------- mouseMoved not implemented --------------------------
+    public void mouseMoved( MouseEvent me ){}
+    //+++++++++++++++++ end MouseMotionListeners ++++++++++++++++++++++++++++
+    
+    //--------------------- main -----------------------------------
+    /**
+     * unit test
+     */
+    public static void main( String[] args )
+    {     
+        JFrame testFrame = new JFrame();
+        testFrame.setSize( 700, 500 );  // define window size
+        
+        testFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        JPanel testPanel = new JPanel( (LayoutManager) null );
+        testFrame.add( testPanel );
+        
+        ResearchSite s1 = new ResearchSite( new Point( 200, 200 ));
+        testPanel.add( s1 );
+        s1.setDraggable( true );
+        
+        ResearchSite s2 = new ResearchSite( new Point( 200, 100 ));
+        testPanel.add( s2 );
+        s2.setDraggable( true );
+        //s2.setVisited( true );
+        
+        testFrame.setVisible( true );  // Initially, JFrame is not visible, make it so.
+        
+    }
 }
-      
-      
+
