@@ -8,8 +8,8 @@
  *            that it is not real emergency site any more, even
  *            if it is the current ResearchSite!
  * 
- * @author huy le
- * 09/28/15
+ * @author rdb
+ * 02/02/11
  */
 
 import java.awt.*;
@@ -139,11 +139,6 @@ public class ResearchSite extends JRectangle
         
         
     }
-    //------------------ setVisited method ----------------------
-    public void setVisited( boolean visited )
-    {
-        setColor( Color.BLUE );
-    }
     //----------------- mouseMoved not implemented --------------------------
     public void mouseMoved( MouseEvent me ){}
     //+++++++++++++++++ end MouseMotionListeners ++++++++++++++++++++++++++++
@@ -168,7 +163,7 @@ public class ResearchSite extends JRectangle
         ResearchSite s2 = new ResearchSite( new Point( 200, 100 ));
         testPanel.add( s2 );
         s2.setDraggable( true );
-        s2.setVisited( true );
+        //s2.setVisited( true );
         
         testFrame.setVisible( true );  // Initially, JFrame is not visible, make it so.
         

@@ -1,5 +1,7 @@
 /* 
  * Rover.java:
+ * @author huy le
+ * 09/28/15
  *   
  * A very simple representation of a Mars rover going to research
  * sites and transmit locations.
@@ -35,163 +37,215 @@ import java.util.*;
 
 public class Rover extends JComponent implements Animated
 { 
-   //---------------------- instance variables ------------------------------
-   private int     _goalX;     // if moving, this is target location
-   private int     _goalY;
-   private int     _speed;     // current speed
-   private double  _locX;
-   private double  _locY;
-   private double  _stepX;
-   private double  _stepY;
-   private int     _nSteps;
-   
-   private int     _homeX;
-   private int     _homeY;
-   
-   // Rover display variables
-   private JRectangle body;
-   private int bodyW = 40, bodyH = 10;
-   private int bodyX = 0;
-   private int bodyY = 0;
- 
-   private int wheelY = 15;
-   private int wheelDiam = 12;
-   private JEllipse wheel1;
-   private int wheel1X = 5;
-
-   private JEllipse wheel2;
-   private int wheel2X = 25;
-   private boolean _animated;
-  
-   //------------------------- constructor -----------------------------------
-   public Rover ( int x, int y, Color bodyColor ) 
-   {
-      /////////////////////////////////////////////////////////
-      // Save the location as "home"
-      // Create 2 or more J-objects to represent the vehicle
-      //    Don't make it too big, less than 50x50 would be good
-      // Add the J-objects using the add method
-      // set the location
-      ///////////////////////////////////////////////////////////
-       
-       
-       wheel1 = new JEllipse( Color.BLUE );
-       wheel1.setSize( wheelDiam, wheelDiam );
-       wheel1.setLocation( wheel1X, wheelY );
-       this.add( wheel1 );
-       
-       wheel2 = new JEllipse( Color.BLUE );
-       wheel2.setSize( wheelDiam, wheelDiam );
-       wheel2.setLocation( wheel2X, wheelY );
-       this.add( wheel2 );
-       
-       body = new JRectangle( bodyX, bodyY );
-       body.setColor( Color.GRAY );
-       body.setSize( bodyW, bodyH );
-       this.add( body );
-       
-      setLocation( x, y );
-   }
-   //------------------------- constructor -----------------------------------
-   public Rover ( Point loc, Color col ) 
-   {  
-      this( loc.x, loc.y, col );
-   }
-   //---------------- add( JComponent ) ---------------------------
-   /**
-    * override add method to compute and set bounds information as 
-    * components are added to the object.
-    */
-   private Rectangle  _bounds = null;    // instance variable
-   
-   public void add( JComponent comp )
-   {
-      super.add( comp );
-      if ( _bounds == null )
-         _bounds = new Rectangle( comp.getBounds() );
-      else
-         _bounds = _bounds.union( comp.getBounds() );
-      super.setBounds( _bounds ); // update location/size     
-   }
-   //------------------ goTo( int, int, int ) --------------------------
-   /**
-    * travel to the specified location at the specified speed
-    */
-   public void goTo( int x, int y, int speed )
-   {
-      //////////////////////////////////////////////////////////
-      // Enable animation (setAnimated method)
-      // compute distance from cur location to target
-      // divide distance by speed to get n, the number of "complete" steps
-      // compute dx, dy (as float or double) - step to take at each frame
-      //    Hint: the vehicle must travel from curX to goalX in n steps,
-      //          so dx is ( goalX - curX ) / n; same for dy
-      // define instance variables for cur location as floats or doubles
-      // save all this information in instance variables, to be used
-      //     in newFrame method.
-      //////////////////////////////////////////////////////////////
-
-
-
-      
-   }
-   //++++++++++++++++++++++ Animated interface +++++++++++++++++++++++++
-   //---------------------- isAnimated() ----------------------------------
-   public boolean isAnimated()
-   {
-      return _animated;
-   }
-   //---------------------- setAnimated( boolean ) --------------------
-   public void setAnimated( boolean onOff )
-   {
-      _animated = onOff;
-   }
-   //---------------------- newFrame() -------------------------------
-   /**
-    * invoked for each frame of animation; 
-    * update the position of the vehicle; check if it has reached the
-    * goal position -- if it has, turn off animation.
-    */
-   public void newFrame() 
-   {
-      if ( !_animated )
-         return;
-      /////////////////////////////////////////////////////////////////
-      // If we've reached the target, turn off animation and/or set 
-      //    something so dispatcher knows that.
-      // else if we still have full steps to take
-      //    compute and set next floating point x,y location
-      // else this is the last step
-      //    set the location to the goal location
-      /////////////////////////////////////////////////////////////////
-      
-      
-      
-      
-               
-   }
-   //+++++++++++++++ end Animated interface ++++++++++++++++++++++++++++++++++++
-
-   //--------------------- main -----------------------------------
-   /**
-    * unit test
-    */
-   public static void main( String[] args )
-   {     
-      JFrame testFrame = new JFrame();
-      testFrame.setSize( 700, 500 );  // define window size
-      
-      testFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-      JPanel testPanel = new JPanel( (LayoutManager) null );
-      testFrame.add( testPanel );
-      
-      Rover d1 = new Rover( 200, 200, Color.GREEN );
-      testPanel.add( d1 );
-      System.out.println( d1.getLocation() );
-      
-      Rover d2 = new Rover( new Point( 100, 200 ), Color.BLUE );
-      testPanel.add( d2 );
-      
-      testFrame.setVisible( true ); 
-   }
+    //---------------------- instance variables ------------------------------
+    private double     _goalX;     // if moving, this is target location
+    private double     _goalY;
+    private int     _speed;     // current speed
+    private double  _locX;
+    private double  _locY;
+    private double  _stepX;
+    private double  _stepY;
+    private int     _nSteps; 
+    
+    private int     _homeX;
+    private int     _homeY;
+    
+    // Rover display variables
+    private JRectangle body;
+    private int bodyW = 40, bodyH = 10;
+    private int bodyX = 0;
+    private int bodyY = 0;
+    
+    private int wheelY = 15;
+    private int wheelDiam = 12;
+    private JEllipse wheel1;
+    private int wheel1X = 5;
+    
+    private JEllipse wheel2;
+    private int wheel2X = 25;
+    private boolean _animated;
+    
+    // New variables
+    private int n;
+    private double distance;
+    
+    //------------------------- constructor -----------------------------------
+    public Rover ( int x, int y, Color bodyColor ) 
+    {
+        /////////////////////////////////////////////////////////
+        // Save the location as "home"
+        // Create 2 or more J-objects to represent the vehicle
+        //    Don't make it too big, less than 50x50 would be good
+        // Add the J-objects using the add method
+        // set the location
+        ///////////////////////////////////////////////////////////
+        
+        
+        wheel1 = new JEllipse( Color.BLUE );
+        wheel1.setSize( wheelDiam, wheelDiam );
+        wheel1.setLocation( wheel1X, wheelY );
+        this.add( wheel1 );
+        
+        wheel2 = new JEllipse( Color.BLUE );
+        wheel2.setSize( wheelDiam, wheelDiam );
+        wheel2.setLocation( wheel2X, wheelY );
+        this.add( wheel2 );
+        
+        body = new JRectangle( bodyX, bodyY );
+        body.setColor( Color.GRAY );
+        body.setSize( bodyW, bodyH );
+        this.add( body );
+        
+        setLocation( x, y );
+    }
+    //------------------------- constructor -----------------------------------
+    public Rover ( Point loc, Color col ) 
+    {  
+        this( loc.x, loc.y, col );
+    }
+    //---------------- add( JComponent ) ---------------------------
+    /**
+     * override add method to compute and set bounds information as 
+     * components are added to the object.
+     */
+    private Rectangle  _bounds = null;    // instance variable
+    
+    public void add( JComponent comp )
+    {
+        super.add( comp );
+        if ( _bounds == null )
+            _bounds = new Rectangle( comp.getBounds() );
+        else
+            _bounds = _bounds.union( comp.getBounds() );
+        super.setBounds( _bounds ); // update location/size     
+    }
+    //------------------ goTo( int, int, int ) --------------------------
+    /**
+     * travel to the specified location at the specified speed
+     */
+    public void goTo( double x, double y, int speed )
+    {
+        //////////////////////////////////////////////////////////
+        // Enable animation (setAnimated method)
+        // compute distance from cur location to target
+        // divide distance by speed to get n, the number of "complete" steps
+        // compute dx, dy (as float or double) - step to take at each frame
+        //    Hint: the vehicle must travel from curX to goalX in n steps,
+        //          so dx is ( goalX - curX ) / n; same for dy
+        // define instance variables for cur location as floats or doubles
+        // save all this information in instance variables, to be used
+        //     in newFrame method.
+        //////////////////////////////////////////////////////////////
+        _animated = true;
+        Point o = this.getLocation();
+        _locX = o.x;
+        _locY = o.y;
+        
+        _goalX = x;
+        _goalY = y;
+        
+        //distance from cur to target//
+        double dx = ( _goalX - _locX );
+        double dy = ( _goalY - _locY );
+        
+        distance = Math.sqrt( dx * dx + dy * dy );
+        
+        n = (int)Math.round( distance/speed );
+        _stepX = dx / n;
+        _stepY = dy / n;
+        
+    }
+    //return//
+    public double getGoalX()
+    {
+        return _goalX;
+    }
+    public double getGoalY()
+    {
+        return _goalY;
+    }
+    //++++++++++++++++++++++ Animated interface +++++++++++++++++++++++++
+    //---------------------- isAnimated() ----------------------------------
+    public boolean isAnimated()
+    {
+        return _animated;
+    }
+    //---------------------- setAnimated( boolean ) --------------------
+    public void setAnimated( boolean onOff )
+    {
+        _animated = onOff;
+    }
+    //---------------------- newFrame() -------------------------------
+    /**
+     * invoked for each frame of animation; 
+     * update the position of the vehicle; check if it has reached the
+     * goal position -- if it has, turn off animation.
+     */
+    public void newFrame() 
+    {
+        if ( !_animated )
+            return;
+        /////////////////////////////////////////////////////////////////
+        // If we've reached the target, turn off animation and/or set 
+        //    something so dispatcher knows that.
+        // else if we still have full steps to take
+        //    compute and set next floating point x,y location
+        // else this is the last step
+        //    set the location to the goal location
+        /////////////////////////////////////////////////////////////////
+        
+        //new point//
+        float gx = Math.round( _goalX );
+        float lx = Math.round( _locX );
+        
+        float gy = Math.round( _goalY );
+        float ly = Math.round( _locY );
+        
+        //reaching goal//
+        if ( gx == lx && gy == ly )
+        {
+            setAnimated( false );
+            return;
+        }
+        if ( n > 1 )
+        {
+            _locX = _locX + _stepX;
+            _locY = _locY + _stepY;
+            n--;
+            setLocation( (int)(_locX), (int)(_locY) );
+        }
+        if ( n == 1 )
+        {
+            _locX = _goalX;
+            _locY = _goalY;
+            n--;
+            setLocation( (int)(_locX), (int)(_locY) );
+        }
+        
+        
+    }
+    //+++++++++++++++ end Animated interface ++++++++++++++++++++++++++++++++++++
+    
+    //--------------------- main -----------------------------------
+    /**
+     * unit test
+     */
+    public static void main( String[] args )
+    {     
+        JFrame testFrame = new JFrame();
+        testFrame.setSize( 700, 500 );  // define window size
+        
+        testFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        JPanel testPanel = new JPanel( (LayoutManager) null );
+        testFrame.add( testPanel );
+        
+        Rover d1 = new Rover( 200, 200, Color.GREEN );
+        testPanel.add( d1 );
+        System.out.println( d1.getLocation() );
+        
+        Rover d2 = new Rover( new Point( 100, 200 ), Color.BLUE );
+        testPanel.add( d2 );
+        
+        testFrame.setVisible( true ); 
+    }
 }
